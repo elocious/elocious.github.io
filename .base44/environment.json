@@ -1,0 +1,13 @@
+{
+  "previewPort": 3000,
+  "healthPath": "/",
+  "startCommand": "docker compose -f docker-compose.base44.yml up -d",
+  "secrets": [
+    {
+      "name": "VITE_AI_API_KEY",
+      "description": "API key for the AI shopping assistant feature. Optional — the assistant shows a friendly message without it. Obtain from your AI provider dashboard.",
+      "requiredAtBoot": false,
+      "generatedForDevelopment": true
+    }
+  ]
+}

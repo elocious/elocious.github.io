@@ -4,7 +4,8 @@ import { Star, Shield, MapPin, Users, Calendar, ChevronDown, Bell } from 'lucide
 import { stores, products } from '@/data/mockData'
 import ProductCard from '@/components/product/ProductCard'
 import Breadcrumbs from '@/components/layout/Breadcrumbs'
-import { EmptyState, Button, Badge } from '@/components/ui/Common'
+import { EmptyState, Badge } from '@/components/ui/Common'
+import { Button } from '@/components/ui/Button'
 import { useStore } from '@/lib/store'
 
 export default function StoreDetail() {

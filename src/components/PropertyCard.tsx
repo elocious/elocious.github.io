@@ -47,7 +47,7 @@ export function PropertyCard({ property }: { property: PropertyCardData }) {
     <Link href={`/property/${property.id}`} className="block group">
       <div className="premium-card overflow-hidden h-full flex flex-col">
         {/* Image */}
-        <div className="relative aspect-[4/3] overflow-hidden bg-slate-100 dark:bg-slate-800">
+        <div className="relative aspect-[4/3] overflow-hidden bg-navy-100 dark:bg-navy-800">
           {images.length > 0 && (
             // eslint-disable-next-line @next/next/no-img-element
             <img
@@ -90,7 +90,7 @@ export function PropertyCard({ property }: { property: PropertyCardData }) {
           )}
           {/* Listing type */}
           <div className="absolute top-12 left-2">
-            <span className={`px-2 py-0.5 rounded-full text-xs font-semibold ${property.listingType === 'rent' ? 'bg-brand-500 text-white' : 'bg-slate-900/80 text-white backdrop-blur'}`}>
+            <span className={`px-2 py-0.5 rounded-full text-xs font-semibold ${property.listingType === 'rent' ? 'bg-brand-500 text-white' : 'bg-navy-900/80 text-white backdrop-blur'}`}>
               {property.listingType === 'rent' ? 'For Rent' : 'For Sale'}
             </span>
           </div>
@@ -99,19 +99,19 @@ export function PropertyCard({ property }: { property: PropertyCardData }) {
         {/* Content */}
         <div className="p-4 flex-1 flex flex-col">
           <div className="flex items-start justify-between gap-2 mb-1">
-            <span className="text-xl font-bold text-slate-900 dark:text-white">
+            <span className="text-xl font-bold text-navy-900 dark:text-white">
               {property.listingType === 'rent' ? `${formatCurrency(property.rent || 0)}/mo` : formatCurrency(property.price)}
             </span>
-            <span className="text-xs text-slate-400 capitalize">{property.propertyType.replace('-', ' ')}</span>
+            <span className="text-xs text-navy-400 capitalize">{property.propertyType.replace('-', ' ')}</span>
           </div>
-          <h3 className="font-semibold text-sm text-slate-900 dark:text-white line-clamp-1">{property.title}</h3>
-          <p className="flex items-center gap-1 text-xs text-slate-500 dark:text-slate-400 mt-1">
+          <h3 className="font-semibold text-sm text-navy-900 dark:text-white line-clamp-1">{property.title}</h3>
+          <p className="flex items-center gap-1 text-xs text-navy-500 dark:text-navy-400 mt-1">
             <MapPin className="w-3 h-3 flex-shrink-0" />
             <span className="line-clamp-1">{property.neighborhood ? `${property.neighborhood}, ` : ''}{property.city}{property.state ? `, ${property.state}` : ''}</span>
           </p>
 
           {/* Stats */}
-          <div className="flex items-center gap-3 mt-3 text-xs text-slate-600 dark:text-slate-400">
+          <div className="flex items-center gap-3 mt-3 text-xs text-navy-600 dark:text-navy-400">
             <span className="flex items-center gap-1">
               <Bed className="w-3.5 h-3.5" /> {property.bedrooms}
             </span>
@@ -124,7 +124,7 @@ export function PropertyCard({ property }: { property: PropertyCardData }) {
           </div>
 
           {/* Price per sqft */}
-          <div className="mt-3 pt-3 border-t border-slate-100 dark:border-slate-800 text-xs text-slate-400">
+          <div className="mt-3 pt-3 border-t border-navy-100 dark:border-navy-800 text-xs text-navy-400">
             {property.listingType === 'buy' && `${formatCurrency(property.price / property.squareFeet)}/sqft`}
             {property.listingType === 'rent' && `${formatCurrency((property.rent || 0) / property.squareFeet)}/sqft/mo`}
           </div>

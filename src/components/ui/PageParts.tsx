@@ -15,8 +15,8 @@ export function PageHeader({ title, subtitle, icon: Icon, action }: {
           </div>
         )}
         <div>
-          <h1 className="font-display text-2xl font-bold text-slate-900 dark:text-white">{title}</h1>
-          {subtitle && <p className="text-sm text-slate-500 dark:text-slate-400 mt-0.5">{subtitle}</p>}
+          <h1 className="font-display text-2xl font-bold text-navy-900 dark:text-white">{title}</h1>
+          {subtitle && <p className="text-sm text-navy-500 dark:text-navy-400 mt-0.5">{subtitle}</p>}
         </div>
       </div>
       {action}
@@ -32,11 +32,11 @@ export function EmptyState({ icon: Icon, title, description, action }: {
 }) {
   return (
     <div className="flex flex-col items-center justify-center py-16 px-4 text-center">
-      <div className="w-16 h-16 rounded-2xl bg-slate-100 dark:bg-slate-800 flex items-center justify-center mb-4">
-        <Icon className="w-8 h-8 text-slate-400" />
+      <div className="w-16 h-16 rounded-2xl bg-navy-100 dark:bg-navy-800 flex items-center justify-center mb-4">
+        <Icon className="w-8 h-8 text-navy-400" />
       </div>
-      <h3 className="font-semibold text-slate-900 dark:text-white mb-1">{title}</h3>
-      <p className="text-sm text-slate-500 dark:text-slate-400 max-w-sm">{description}</p>
+      <h3 className="font-semibold text-navy-900 dark:text-white mb-1">{title}</h3>
+      <p className="text-sm text-navy-500 dark:text-navy-400 max-w-sm">{description}</p>
       {action && <div className="mt-4">{action}</div>}
     </div>
   );
@@ -50,7 +50,7 @@ export function SectionCard({ title, children, action }: {
   return (
     <div className="premium-card p-5">
       <div className="flex items-center justify-between mb-4">
-        <h2 className="font-semibold text-slate-900 dark:text-white">{title}</h2>
+        <h2 className="font-semibold text-navy-900 dark:text-white">{title}</h2>
         {action}
       </div>
       {children}
@@ -64,15 +64,15 @@ export function InfoPill({ label, value, tone = 'default' }: {
   tone?: 'default' | 'success' | 'warning' | 'danger' | 'brand';
 }) {
   const tones = {
-    default: 'text-slate-600 dark:text-slate-400',
-    success: 'text-emerald-600 dark:text-emerald-400',
+    default: 'text-navy-600 dark:text-navy-400',
+    success: 'text-brand-600 dark:text-brand-400',
     warning: 'text-gold-600 dark:text-gold-400',
     danger: 'text-red-600 dark:text-red-400',
     brand: 'text-brand-600 dark:text-brand-400',
   };
   return (
     <div className="flex flex-col">
-      <span className="text-xs text-slate-400">{label}</span>
+      <span className="text-xs text-navy-400">{label}</span>
       <span className={`text-sm font-semibold ${tones[tone]}`}>{value}</span>
     </div>
   );
@@ -80,7 +80,7 @@ export function InfoPill({ label, value, tone = 'default' }: {
 
 export function AIDisclaimer({ text }: { text?: string }) {
   return (
-    <p className="text-xs text-slate-400 italic mt-2">
+    <p className="text-xs text-navy-400 italic mt-2">
       {text || '*AI-generated analysis — verify with qualified professionals for financial, legal, and safety decisions.*'}
     </p>
   );
@@ -88,10 +88,10 @@ export function AIDisclaimer({ text }: { text?: string }) {
 
 export function DataLabel({ type }: { type: 'verified' | 'estimate' | 'user' | 'ai' | 'missing' }) {
   const labels = {
-    verified: { text: 'Verified', class: 'bg-emerald-100 text-emerald-700 dark:bg-emerald-950/40 dark:text-emerald-400' },
-    estimate: { text: 'Estimate', class: 'bg-brand-100 text-brand-700 dark:bg-brand-950/40 dark:text-brand-400' },
-    user: { text: 'User Input', class: 'bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-400' },
-    ai: { text: 'AI Analysis', class: 'bg-gold-100 text-gold-700 dark:bg-gold-950/40 dark:text-gold-400' },
+    verified: { text: 'Verified', class: 'bg-brand-100 text-brand-700 dark:bg-brand-950/40 dark:text-brand-400' },
+    estimate: { text: 'Estimate', class: 'bg-navy-100 text-navy-600 dark:bg-navy-800 dark:text-navy-400' },
+    user: { text: 'User Input', class: 'bg-navy-100 text-navy-600 dark:bg-navy-800 dark:text-navy-400' },
+    ai: { text: 'AI Analysis', class: 'bg-gold-100 text-gold-600 dark:bg-gold-500/15 dark:text-gold-400' },
     missing: { text: 'Missing', class: 'bg-red-100 text-red-700 dark:bg-red-950/40 dark:text-red-400' },
   };
   const l = labels[type];

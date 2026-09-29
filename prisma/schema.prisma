@@ -1,0 +1,295 @@
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model User {
+  id                   String             @id @default(cuid())
+  email                String             @unique
+  name                 String
+  avatar               String?
+  role                 String             @default("user")
+  buyerType            String?            // buy, rent, explore
+  budgetMin            Float?
+  budgetMax            Float?
+  preferredLocations   String?            // JSON array
+  timeline             String?            // asap, 1-3m, 3-6m, 6-12m, exploring
+  weightAffordability  Int                @default(5)
+  weightSafety         Int                @default(5)
+  weightSchools        Int                @default(5)
+  weightCommute        Int                @default(5)
+  weightSpace          Int                @default(5)
+  weightNeighborhood   Int                @default(5)
+  weightInvestment     Int                @default(5)
+  weightLifestyle      Int                @default(5)
+  weightMaintenance    Int                @default(5)
+  weightPrivacy        Int                @default(5)
+  weightOutdoor        Int                @default(5)
+  theme                String             @default("system")
+  currency             String             @default("USD")
+  units                String             @default("imperial")
+  savedProperties      SavedProperty[]
+  evaluations          Evaluation[]
+  comparisons          Comparison[]
+  tasks                Task[]
+  notes                Note[]
+  documents            PropertyDocument[]
+  conversations        AIConversation[]
+  reports              AIReport[]
+  notifications        Notification[]
+  savedSearches        SavedSearch[]
+  messages             Message[]
+  createdAt            DateTime           @default(now())
+  updatedAt            DateTime           @updatedAt
+}
+
+model Property {
+  id                 String              @id @default(cuid())
+  title               String
+  description         String
+  price              Float
+  rent               Float?
+  listingType        String              @default("buy")
+  propertyType       String
+  status             String              @default("active")
+  address            String
+  city               String
+  state               String?
+  zipCode            String?
+  neighborhood       String?
+  latitude           Float?
+  longitude          Float?
+  bedrooms           Float
+  bathrooms          Float
+  squareFeet         Float
+  lotSize            Float?
+  yearBuilt          Int?
+  parking            Int                 @default(0)
+  furnished          Boolean             @default(false)
+  pool               Boolean             @default(false)
+  garden             Boolean             @default(false)
+  solar              Boolean             @default(false)
+  smartHome          Boolean             @default(false)
+  hoa                Float               @default(0)
+  schoolRating       Float?
+  safetyScore        Float?
+  walkabilityScore   Float?
+  transitScore       Float?
+  noiseLevel         String?
+  floodRisk          String?
+  propertyTax        Float?
+  insuranceEstimate  Float?
+  maintenanceEstimate Float?
+  images             String              // JSON array of URLs
+  savedBy            SavedProperty[]
+  evaluations        Evaluation[]
+  documents          PropertyDocument[]
+  events             PropertyEvent[]
+  tasks              Task[]
+  notes              Note[]
+  concepts           ArchitecturalConcept[]
+  reports            AIReport[]
+  messages           Message[]
+  createdAt          DateTime            @default(now())
+  updatedAt          DateTime            @updatedAt
+}
+
+model SavedProperty {
+  id         String   @id @default(cuid())
+  userId     String
+  propertyId String
+  vaultStatus String  @default("interested")
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  property   Property @relation(fields: [propertyId], references: [id], onDelete: Cascade)
+  createdAt  DateTime @default(now())
+}
+
+model Evaluation {
+  id                         String   @id @default(cuid())
+  userId                     String
+  propertyId                 String
+  downPayment                 Float
+  interestRate               Float
+  loanTerm                   Int
+  propertyTax                Float
+  hoa                        Float
+  insurance                  Float
+  maintenance                Float
+  utilities                  Float
+  closingCosts               Float
+  renovationBudget           Float
+  conditionRoof              Int      @default(5)
+  conditionFoundation        Int      @default(5)
+  conditionPlumbing          Int      @default(5)
+  conditionElectrical        Int      @default(5)
+  conditionHVAC              Int      @default(5)
+  conditionWindows           Int      @default(5)
+  conditionKitchen           Int      @default(5)
+  conditionBathrooms          Int      @default(5)
+  conditionExterior          Int      @default(5)
+  conditionLandscaping       Int      @default(5)
+  overallScore               Float
+  financialFitScore          Float
+  locationFitScore           Float
+  lifestyleFitScore          Float
+  conditionScore             Float
+  riskScore                  Float
+  longTermAffordabilityScore Float
+  personalMatchScore         Float
+  explanation                String   // JSON
+  user                       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  property                   Property @relation(fields: [propertyId], references: [id], onDelete: Cascade)
+  createdAt                  DateTime @default(now())
+}
+
+model Comparison {
+  id          String   @id @default(cuid())
+  userId      String
+  name        String
+  propertyIds  String   // JSON array
+  tradeoffs   String   // JSON
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt   DateTime @default(now())
+}
+
+model SavedSearch {
+  id      String   @id @default(cuid())
+  userId  String
+  name    String
+  filters String   // JSON
+  user    User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+}
+
+model Neighborhood {
+  id            String   @id @default(cuid())
+  name          String
+  city          String
+  state         String?
+  description   String?
+  schoolRating  Float?
+  safetyScore   Float?
+  walkabilityScore Float?
+  transitScore  Float?
+  noiseLevel    String?
+  floodRisk     String?
+  averagePrice  Float?
+  priceTrend    String?
+  amenities     String   // JSON array
+  createdAt     DateTime @default(now())
+}
+
+model PropertyDocument {
+  id               String    @id @default(cuid())
+  userId           String
+  propertyId       String?
+  name             String
+  category         String
+  fileUrl          String?
+  fileSize         Float?
+  fileType         String?
+  aiSummary        String?
+  aiExtractedFields String?  // JSON
+  user             User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  property         Property? @relation(fields: [propertyId], references: [id], onDelete: SetNull)
+  createdAt        DateTime  @default(now())
+}
+
+model AIConversation {
+  id         String   @id @default(cuid())
+  userId     String
+  propertyId String?
+  messages   String   // JSON array
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+}
+
+model AIReport {
+  id         String   @id @default(cuid())
+  userId     String
+  propertyId String
+  content    String   // JSON
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  property   Property @relation(fields: [propertyId], references: [id], onDelete: Cascade)
+  createdAt  DateTime @default(now())
+}
+
+model Task {
+  id         String    @id @default(cuid())
+  userId     String
+  propertyId String?
+  title      String
+  category   String
+  status     String    @default("not_started")
+  dueDate    DateTime?
+  user       User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  property   Property? @relation(fields: [propertyId], references: [id], onDelete: SetNull)
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
+}
+
+model Note {
+  id         String    @id @default(cuid())
+  userId     String
+  propertyId String?
+  content    String
+  user       User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  property   Property? @relation(fields: [propertyId], references: [id], onDelete: SetNull)
+  createdAt  DateTime  @default(now())
+}
+
+model Notification {
+  id        String   @id @default(cuid())
+  userId    String
+  type      String
+  title     String
+  message   String
+  read      Boolean  @default(false)
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+}
+
+model PropertyEvent {
+  id          String   @id @default(cuid())
+  propertyId  String
+  eventType   String
+  description String
+  property    Property @relation(fields: [propertyId], references: [id], onDelete: Cascade)
+  createdAt   DateTime @default(now())
+}
+
+model ArchitecturalConcept {
+  id          String   @id @default(cuid())
+  propertyId  String
+  style       String
+  materials   String?
+  roofStyle   String?
+  windowStyle String?
+  landscaping String?
+  lighting    String?
+  colorPalette String?
+  interiorMood String?
+  era         String?
+  timeOfDay   String   @default("day")
+  prompt      String?
+  svgContent  String?
+  property    Property @relation(fields: [propertyId], references: [id], onDelete: Cascade)
+  createdAt   DateTime @default(now())
+}
+
+model Message {
+  id          String    @id @default(cuid())
+  userId      String
+  propertyId  String?
+  authorName  String    @default("You")
+  authorRole  String    @default("buyer")    // buyer, partner, family, agent
+  content     String
+  user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  property    Property? @relation(fields: [propertyId], references: [id], onDelete: SetNull)
+  createdAt   DateTime  @default(now())
+}
